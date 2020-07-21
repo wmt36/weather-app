@@ -1,8 +1,29 @@
 $(document).ready(function () {
-
+    //pulling the needed variable from the HTML
     var fiveDay = document.getElementById("dayAhead")
     var currentCity = document.getElementById("currentcity")
-    var APIkey = "d21c600165a9b27ec27d8cad2ffbba4a"
+    var queryParams = "d21c600165a9b27ec27d8cad2ffbba4a";
+    var qURL = "http://api.openweathermap.org/data/2.5/weather?" +
+    "q=denver&appid=" + queryParams;
+var queryURL = "http://api.openweathermap.org/data/2.5/forecast?" +
+    "q=Denver&APPID=" + queryParams;
+
+
+    /**allows the person access to view any state current weather by using the API key 
+     which is now the queryParams variable.*/
+    function buildQuery() {
+
+        qURL
+        queryURL
+        queryParams.q = $("#search")
+            .val()
+            .trim();
+
+    }
+
+function updatePagew(){
+
+}
 
 
 
@@ -10,26 +31,27 @@ $(document).ready(function () {
     //it will save to the local storage and and remain on the screen.
     $("#submit").on("click", function (e) {
         e.preventDefault();
-
         currentCity.style.display = "block";
-    });
 
-    
-        var qURL = "http://api.openweathermap.org/data/2.5/weather?q=denver&appid=d21c600165a9b27ec27d8cad2ffbba4a";
-        var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=Denver&APPID=d21c600165a9b27ec27d8cad2ffbba4a";
-
-
+        buildQuery();
 
         $.ajax({
-            url: queryURL,
+            url: qURL,
             method: "GET"
         })
-            .then(function(response) {
-            console.log(queryURL);
+            .then(function (response) {
+                console.log(queryURL);
+                console.log(response);
 
-        })
+                var results = response.data;
 
-    
+                $(".wind").text("<p>" + response.wind + "</p>");
+
+
+
+            })
+
+    });
 
 
 
