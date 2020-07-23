@@ -37,23 +37,37 @@ function updatePagew(){
         buildQuery();
 
         $.ajax({
-            url: qURL, queryURL,
+            url: qURL, 
             method: "GET"
         })
             .then(function (response) {
                 console.log(qURL);
                 console.log("----------");
-                console.log(queryURL);
-                console.log(response);
+                
+                
 
                 var tempF = (response.main.temp - (293.64) * 1.80 + 32);
 
+                $(".city").html("<h3>" + response.name + "</h3>");
                 $(".wind").text("Wind Speed: " + response.wind.speed);
                 $(".humidity").text("Humidity: " + response.main.humidity);
                 $(".temp").text("Temperature: " + tempF);
-                //$(".uv").text("Uv Index: " + response.main.humidity);
+                $(".uv").text("Uv Index: " + response.weather.description);
+                console.log(response);
 
-                $(".card-body").text("coming soon")
+
+                $.ajax({
+                    url: queryURL, 
+                    method: "GET"
+                })
+                console.log(queryURL);
+
+                $(".cardheader").html("<h3>" + response.name + "</h3>");
+                $(".fwind").text("Wind Speed: " + response.wind.speed);
+                $(".ftemp").text("Temp: " +response.main.temp);
+                $(".fhumidity").text("Humidity: " +response.main.humidity);
+                
+
 
 
 
