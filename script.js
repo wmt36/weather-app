@@ -48,14 +48,17 @@ $(document).ready(function () {
         //calling the current weather
 
         $.ajax({
-            url: qURL, uviURL,
+            url: qURL,
             method: "GET"
         }).then(function (response) {
-            console.log(qURL);
+            console.log(`thisisqURL: ${qURL}`);
             console.log(uviURL);
 
 
-
+            $.ajax({
+                url: uviURL,
+                method: "GET"
+            }).then(function (uv) {
 
             var tempF = Math.floor((response.main.temp - 273.15) * 1.80 + 32);
 
@@ -63,9 +66,11 @@ $(document).ready(function () {
             $(".wind").html("<strong> Wind Speed: </strong>" + response.wind.speed);
             $(".humidity").html("<strong> Humidity: </strong>" + response.main.humidity);
             $(".temp").html("<strong> Temperature: </strong>" + tempF);
-            $(".uv").html("<strong> Uv Index: </strong>" + response.value);
+            $(".uv").html("<strong> Uv Index: </strong>" + uv.value);
             console.log(response);
             console.log("----------");
+            console.log(uv)
+            })
         })
 
 
@@ -77,13 +82,35 @@ $(document).ready(function () {
         })
             .then(function (forecast) {
                 console.log(forecast);
-                
-                var fTemp = Math.floor((forecast.list[0].main.temp - 273.15) * 1.80 + 32);
 
+                var fTemp = Math.floor((forecast.list[0].main.temp - 273.15) * 1.80 + 32);
+//calling each day based on the array number
+//blue card one day ahead
                 $(".cardheader").html("<h3>" + forecast.list[0].dt_txt + "</h3>");
                 $(".fwind").text("Wind Speed: " + forecast.list[0].wind.speed);
-                $(".ftemp").text("Temp: " + forecast.list[0].main.fTemp);
+                $(".ftemp").text("Temp: " + forecast.list[0].main.temp);
                 $(".fhumidity").text("Humidity: " + forecast.list[0].main.humidity);
+//grey card two days ahead
+                $(".tcardheader").html("<h3>" + forecast.list[8].dt_txt + "</h3>");
+                $(".twind").text("Wind Speed: " + forecast.list[8].wind.speed);
+                $(".ttemp").text("Temp: " + forecast.list[8].main.temp);
+                $(".thumidity").text("Humidity: " + forecast.list[8].main.humidity);
+//green card three days ahead 
+                $(".wcardheader").html("<h3>" + forecast.list[16].dt_txt + "</h3>");
+                $(".wwind").text("Wind Speed: " + forecast.list[16].wind.speed);
+                $(".wftemp").text("Temp: " + forecast.list[16].main.temp);
+                $(".whumidity").text("Humidity: " + forecast.list[16].main.humidity);
+//red card four days ahead 
+                $(".thcardheader").html("<h3>" + forecast.list[24].dt_txt + "</h3>");
+                $(".thfwind").text("Wind Speed: " + forecast.list[24].wind.speed);
+                $(".thftemp").text("Temp: " + forecast.list[24].main.temp);
+                $(".thfhumidity").text("Humidity: " + forecast.list[24].main.humidity);
+//yellow card five days ahead
+                $(".scardheader").html("<h3>" + forecast.list[32].dt_txt + "</h3>");
+                $(".sfwind").text("Wind Speed: " + forecast.list[32].wind.speed);
+                $(".sftemp").text("Temp: " + forecast.list[32].main.temp);
+                $(".sfhumidity").text("Humidity: " + forecast.list[32].main.humidity);
+
 
             })
         console.log(queryURL);
